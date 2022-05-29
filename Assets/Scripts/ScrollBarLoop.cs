@@ -23,6 +23,7 @@ public class ScrollBarLoop : MonoBehaviour
     private int bttnDistance; // will hold the distance between the buttons
     private int minButtonNum; // to hold the number of the button, with smallest distance to center
     private int bttnLength;
+    private int dist;
 
     // Start is called before the first frame update
     void Start()
@@ -56,7 +57,7 @@ public class ScrollBarLoop : MonoBehaviour
             //if the button gets out of the border that is preset; 5 to -5 which is also the distance from the center
             //it will take its "curX"/"current x position" + (the bttnLength and multiply it with the bttndistance)
             //it will then move the button with the values the variable gives it and push it to the side, while still staying at the same y position.
-            if (distReposition[i] > 5)
+            if (distReposition[i] > 3)
             {
                 float curX = bttn[i].GetComponent<RectTransform>().anchoredPosition.x;
                 float curY = bttn[i].GetComponent<RectTransform>().anchoredPosition.y;
@@ -65,7 +66,7 @@ public class ScrollBarLoop : MonoBehaviour
                 bttn[i].GetComponent<RectTransform>().anchoredPosition = newAnchorPos;
             }
 
-            if (distReposition[i] < -5)
+            if (distReposition[i] < -3)
             {
                 float curX = bttn[i].GetComponent<RectTransform>().anchoredPosition.x;
                 float curY = bttn[i].GetComponent<RectTransform>().anchoredPosition.y;

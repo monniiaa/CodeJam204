@@ -13,6 +13,6 @@ public class BrightnessManager : SingletonPattern<BrightnessManager>
     /// <param name="val"> The value the amount of light in the scene should be set to</param>
     public void SetBrightnessLevel(float val)
     {
-        lightInScene.Amount = 1 - val;
+        lightInScene.Amount = val;
     }
 }

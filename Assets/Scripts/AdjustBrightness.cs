@@ -22,8 +22,7 @@ public class AdjustBrightness : MonoBehaviour
         brightnessManager = BrightnessManager.Instance;
         sensorManager.OnAcceleration += AdjustSliderBrightness;
         toggleButton.Clicked += OnToggleButtonClicked;
-        Input.compass.enabled = true;
-        Input.location.Start();
+
     }
 
     private void Update()

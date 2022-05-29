@@ -3,11 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LightsensorAdjuster : MonoBehaviour
+public class LightsensorAdjuster: MonoBehaviour, ILerpable
 {
     BrightnessManager brightnessManager;
     SensorManager SensorManager;
-    float timeElapsed;
+
     float valueToLerp;
     bool isAnimating = false;
     float minLightLevel = 10;
@@ -26,30 +26,6 @@ public class LightsensorAdjuster : MonoBehaviour
     }
 
     /// <summary>
-    /// Sets the brightness level over a certain duration
-    /// </summary>
-    /// <param name="startvalue">The start value of the brightness</param>
-    /// <param name="endvalue">The end value of the brightness</param>
-    /// <param name="lerpDuration">The duartion of the lerp</param>
-    /// <returns></returns>
-    IEnumerator Lerp(float startvalue, float endvalue, float lerpDuration)
-    {
-        isAnimating = true;
-        timeElapsed = 0;
-        while (timeElapsed < lerpDuration)
-        {
-            valueToLerp = Mathf.Lerp(startvalue, endvalue, timeElapsed / lerpDuration);
-            brightnessManager.SetBrightnessLevel(valueToLerp);
-            timeElapsed +=1;
-           
-            yield return null;
-        }
-        valueToLerp = endvalue;
-        brightnessManager.SetBrightnessLevel(valueToLerp);
-        isAnimating = false;
-    }
-
-    /// <summary>
     /// Turns the brightness of the light up if the lightlevel from the lightsensor is below 10
     /// </summary>
     /// <param name="val">The lightlevel detected from the lightsensor</param>
@@ -59,13 +35,37 @@ public class LightsensorAdjuster : MonoBehaviour
             {
                 float startvalue = brightnessManager.lightInScene.Amount;
                 float endvalue = maxBrightness;
-                StartCoroutine(Lerp(startvalue, endvalue, lerpDuration));
+                StartCoroutine(LinearInterpolation(startvalue, endvalue, lerpDuration));
             }
             else if(!isAnimating && brightnessManager.lightInScene.Amount == maxBrightness)
             {
                 float startvalue = brightnessManager.lightInScene.Amount;
                 float endvalue = minBrightness;
-                StartCoroutine(Lerp(startvalue, endvalue, lerpDuration));
+                StartCoroutine(LinearInterpolation(startvalue, endvalue, lerpDuration));
             }
+    }
+
+    /// <summary>
+    /// Sets the brightness level over a certain duration
+    /// </summary>
+    /// <param name="startvalue">The start value of the brightness</param>
+    /// <param name="endvalue">The end value of the brightness</param>
+    /// <param name="lerpDuration">The duartion of the lerp</param>
+    /// <returns></returns>
+    public IEnumerator LinearInterpolation(float startvalue, float endvalue, float lerpDuration)
+    {
+        isAnimating = true;
+        float timeElapsed = 0;
+        while (timeElapsed < lerpDuration)
+        {
+            valueToLerp = Mathf.Lerp(startvalue, endvalue, timeElapsed / lerpDuration);
+            brightnessManager.SetBrightnessLevel(valueToLerp);
+            timeElapsed += 1;
+
+            yield return null;
+        }
+        valueToLerp = endvalue;
+        brightnessManager.SetBrightnessLevel(valueToLerp);
+        isAnimating = false;
     }
 }

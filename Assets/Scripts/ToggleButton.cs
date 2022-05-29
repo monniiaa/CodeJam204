@@ -2,7 +2,8 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ToggleButton : MonoBehaviour
+
+public class ToggleButton : MonoBehaviour, ILerpable
 {
     public delegate void IsClickedEvent(bool isOn);
     public event IsClickedEvent Clicked;
@@ -69,20 +70,21 @@ public class ToggleButton : MonoBehaviour
     /// <param name="endPosition">The end position of the button</param>
     /// <param name="duration">The duration it takes to go from the start to end position</param>
     /// <returns></returns>
-    IEnumerator LinearInterpolation(float startPosition, float endPosition, float duration)
+
+    public IEnumerator LinearInterpolation(float startvalue, float endvalue, float lerpDuration)
     {
         // https://gamedevbeginner.com/the-right-way-to-lerp-in-unity-with-examples/
         isAnimating = true;
         float timeElapsed = 0;
-        while (timeElapsed < duration)
+        while (timeElapsed < lerpDuration)
         {
             //changes the position of the circle over time
-            _buttonCircle.transform.localPosition = new Vector3(Mathf.Lerp(startPosition, endPosition, timeElapsed / duration), 0, 0);
+            _buttonCircle.transform.localPosition = new Vector3(Mathf.Lerp(startvalue, endvalue, timeElapsed / lerpDuration), 0, 0);
             timeElapsed += Time.deltaTime;
             yield return null;
         }
         // snaps the circle position to the end position
-        _buttonCircle.transform.localPosition = new Vector2(endPosition, 0);
+        _buttonCircle.transform.localPosition = new Vector2(endvalue, 0);
         isAnimating = false;
     }
 }
