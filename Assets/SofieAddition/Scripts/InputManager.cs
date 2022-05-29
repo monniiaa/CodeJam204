@@ -70,7 +70,6 @@ public class InputManager : SingletonPattern<InputManager>
     /// <param name="ctx">The context of the input action</param>
     private void OnPerformedHold(InputAction.CallbackContext ctx)
     {
-        Debug.Log("holding");
         PerformedHoldEvent?.Invoke(input.TouchControls.TouchPosition.ReadValue<Vector2>());
     }
 }
