@@ -1788,7 +1788,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e0bba111c497d045ae46d173465cf33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slider: {fileID: 0}
+  slider: {fileID: 503182296}
   toggleButton: {fileID: 4897001151109685172}
 --- !u!114 &827318953
 MonoBehaviour:
